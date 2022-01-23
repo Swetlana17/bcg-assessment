@@ -1,64 +1,107 @@
-import React, { useState,useEffect } from 'react';
-import './styles.css'
+import React,{useState,useEffect} from 'react';
+import { styled } from '@mui/material/styles';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 
-function TableComponent(){
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
+import { Container } from '@mui/material';
+
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  '&:nth-of-type(odd)': {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  '&:last-child td, &:last-child th': {
+    border: 0,
+  },
+}));
+
+
+
+
+export default function TableComponent() {
     const [data,setData]=useState([]);
+    const [loading,setLoading]=useState(true);
     useEffect(()=>{
-        fetch("/data").then(res=>res.json()).then(data => setData(data))
+        fetch("/data").then(res=>res.json()).then(data => 
+          {
+            setData(data);
+            setLoading(false);
+          })
         },[])
-    return(
-    <div className='tableProperty'>
-<h1>Table </h1>
-      <table>
-      <thead>
-      <tr>
-        <th>Policy_id</th>
-        <th>Date of Purchase</th>
-        <th>Customer_id</th>
-        <th>Fuel</th>
-        <th>VEHICLE_SEGMENT</th>
-        <th>Premium</th>
-        <th>bodily injury liability</th>
-        <th>personal injury protection</th>
-        <th> property damage liability</th>
-        <th>collision</th>
-        <th> comprehensive</th>
-        <th>Customer_Gender</th>
-        <th>Customer_Income group</th>
-        <th>Customer_Region</th>
-        <th>Customer_Marital_status</th>
-      </tr>
-      </thead>
-      <tbody>
-      {data.length>0 &&
-        data.map((val, key) => {
-        return (
-          <tr key={key}>
-            <td>{val.Policy_id}</td>
-            <td>{val['Date of Purchase']}</td>
-            <td>{val.Customer_id}</td>            
-            <td>{val.Fuel}</td>
-            <td>{val.VEHICLE_SEGMENT}</td>
-            <td>{val.Premium}</td>            
-            <td>{val['bodily injury liability']}</td>
-            <td>{val[' personal injury protection']}</td>
-            <td> {val[' property damage liability']}</td>
-            <td>{val[' collision']}</td>
-            <td> {val[' comprehensive']}</td>
-            <td>{val.Customer_Gender}</td>
-            <td>{val['Customer_Income group']}</td>
-            <td>{val.Customer_Region}</td>
-            <td>{val.Customer_Marital_status=="0"?"Unmarried":"Married"}</td>
-          </tr>
-         
-        )
-      })
+  return (
+    <Container maxWidth="xl">
+    {
+      loading && <Box  style={{    position: 'absolute',
+        left: '50%',
+        top: '50%'}}>
+      <CircularProgress />
+      <p>Loading...</p>
+    </Box>
     }
-    </tbody>
-      </table>
-      </div>
-    )
+    <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 700 }} aria-label="customized table">
+        <TableHead>
+          <TableRow>
+            <StyledTableCell>Policy_id</StyledTableCell>
+            <StyledTableCell align="right">Date of Purchase</StyledTableCell>
+            <StyledTableCell align="right">Customer_id</StyledTableCell>
+            <StyledTableCell align="right">Fuel</StyledTableCell>
+            <StyledTableCell align="right">Vehicle Segment</StyledTableCell>
+            <StyledTableCell align="right">Premium</StyledTableCell>
+            <StyledTableCell align="right">Bodily injury liability</StyledTableCell>
+            <StyledTableCell align="right">Personal injury protection</StyledTableCell>
+            <StyledTableCell align="right">Property Damage liability</StyledTableCell>
+            <StyledTableCell align="right">Collision</StyledTableCell>
+            <StyledTableCell align="right">Comprehensive</StyledTableCell>
+            <StyledTableCell align="right">Gender</StyledTableCell>
+            <StyledTableCell align="right">Income group</StyledTableCell>
+            <StyledTableCell align="right">Region</StyledTableCell>
+            <StyledTableCell align="right">Marital status</StyledTableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {data.map((row,key) => (
+            <StyledTableRow key={row.Policy_id}>
+              <StyledTableCell component="th" scope="row">
+                {row.Policy_id}
+              </StyledTableCell>
+              <StyledTableCell align="right">{row.Policy_id}</StyledTableCell>
+              <StyledTableCell align="right">{row['Date of Purchase']}</StyledTableCell>
+              <StyledTableCell align="right">{row.Fuel}</StyledTableCell>
+              <StyledTableCell align="right">{row.VEHICLE_SEGMENT}</StyledTableCell>
+              <StyledTableCell align="right">{row.Premium}</StyledTableCell>
+              <StyledTableCell align="right">{row['bodily injury liability']}</StyledTableCell>
+              <StyledTableCell align="right">{row[' personal injury protection']}</StyledTableCell>
+              <StyledTableCell align="right">{row[' property damage liability']}</StyledTableCell>
+              <StyledTableCell align="right">{row[' collision']}</StyledTableCell>
+              <StyledTableCell align="right">{row[' comprehensive']}</StyledTableCell>
+              <StyledTableCell align="right">{row.Customer_Gender}</StyledTableCell>
+              <StyledTableCell align="right">{row['Customer_Income group']}</StyledTableCell>
+              <StyledTableCell align="right">{row.Customer_Region}</StyledTableCell>
+              <StyledTableCell align="right">{row.Customer_Marital_status=="0"?"Unmarried":"Married"}</StyledTableCell>
+            </StyledTableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+    </Container>
+  );
 }
-
-export default TableComponent;
-

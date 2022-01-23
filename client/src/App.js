@@ -5,6 +5,7 @@ import {
 } from "react-router-dom";
 import TableComponent from "./components/Table/TableComponent";
 import Home from './pages/Home'
+import Menubar from "./components/Appbar/Menubar";
 
 const App = () => useRoutes([
     { path: "/home", element: <Home /> },
@@ -15,6 +16,7 @@ const App = () => useRoutes([
 const AppWrapper = () => (
 
     <Router>
+    <Menubar/>
       <App />
     </Router>
   );

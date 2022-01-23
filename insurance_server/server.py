@@ -23,7 +23,7 @@ def find_data(ctx):
 
 
 @app.route('/customer_id')
-def find_data(ctx):
+def find(ctx):
     return search_by_customer_id(ctx)
 
 

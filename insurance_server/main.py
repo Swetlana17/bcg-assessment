@@ -15,8 +15,8 @@ def reading_data():
 
 
 def search_by_customer_id(ctx):
-    return ''
+    return {"message":"Hello World"}
 
 
 def search_by_product_id(ctx):
-    return ''
+    return {"message":"Hello World"}
