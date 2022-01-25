@@ -8,7 +8,6 @@ import MenuItem from "@mui/material/MenuItem";
 import DialogTitle from "@mui/material/DialogTitle";
 import IconButton from "@material-ui/core/IconButton";
 import EditIcon from "@material-ui/icons/EditOutlined";
-import { Alert, Backdrop } from "@mui/material";
 
 export default function SinglePolicy(props) {
   const [open, setOpen] = React.useState(false);  

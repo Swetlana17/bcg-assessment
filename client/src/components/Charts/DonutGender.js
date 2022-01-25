@@ -1,34 +1,42 @@
 import React, { useEffect, useState } from "react";
-import Chart from "react-apexcharts";
+import DonutChart from 'react-donut-chart';
 
 export default function DonutGender(){
-    const [state,setState]=useState({
-        options: {},
-        series: [44, 55],
-        labels: ['A', 'B']
-      }
+    const [state,setState]=useState(
+        [
+            {
+              label: 'Male',
+              value: 25,
+            },
+            {
+              label: 'Female',
+              value: 75,
+            },
+          ]
         )
     useEffect(()=>{
         fetch("/filter_gender").then(res=>res.json()).then(data=>{
             console.log("response is ",data)
-            setState({
-                options: {
-                    chart: {
-                      id: "chart-id"
-                    }
+            setState([{
+                    label: data[0]._id,
+                    value: data[0].Premium,
                   },
-                series: [
-                data[0].Premium,data[1].Premium],
-                chartOptions:{
-                labels: [data[0]._id,data[1]._id]
-                }
-            })
+                  {
+                    label: data[1]._id,
+                    value: data[1].Premium,
+                  }]
+            )
         })
         
     },[])
     return(
         <div className="donut">
-        <Chart options={state.options} series={state.series} type="donut" width="380" />
+        <DonutChart
+        height="350"
+        width="480"
+  data={state}
+/>;
       </div>
     )
 }
+

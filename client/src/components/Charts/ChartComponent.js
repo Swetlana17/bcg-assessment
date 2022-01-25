@@ -59,7 +59,7 @@ export function ChartComponent(props) {
           options={state.options}
           series={state.series}
           type="bar"
-          width="900"
+          width="800"
         />)}
       </div>
   )

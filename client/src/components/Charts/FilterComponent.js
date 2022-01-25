@@ -24,9 +24,11 @@ export default function FilterComponent(){
         <>
         <Container className={classes.title}>
         <Typography variant="h3">Report of Premium for {year} year in {region} Region.</Typography>
+        <div className={classes.dropdown}>
         <TextField
         select
-        className={classes.dropdown}
+        label="Year"
+        fullWidth
         value={year}
         onChange={(e)=>setYear(e.target.value)}
         >
@@ -36,10 +38,13 @@ export default function FilterComponent(){
             </MenuItem>
           ))}
         </TextField>
+        </div>
+        <div className={classes.dropdown}>
         <TextField
         select
-        className={classes.dropdown}
+        label="Region"
         value={region}
+        fullWidth
         onChange={(e)=>setRegion(e.target.value)}
         >
         {regions.map((reg) => (
@@ -48,12 +53,13 @@ export default function FilterComponent(){
             </MenuItem>
           ))}
         </TextField>
+        </div>
         <div className={classes.barchart}>
         <ChartComponent {...props} />
         </div>
         <div className={classes.donut}>
         <Card>
-        <Typography variant="h5">Premium Among Male and Females</ Typography>
+        <Typography variant="h5" style={{paddingBottom:'50px'}}>Premium Among Male and Females in All Regions</ Typography>
         <DonutGender/>
         </Card>
         </div>

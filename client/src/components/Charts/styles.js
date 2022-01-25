@@ -7,8 +7,9 @@ export default makeStyles((theme) => ({
     padding: '5em'
   },
   dropdown: {
+    padding:'2%',
     width:'25%',
-    padding:'2% !important'
+    display:'inline-flex'
   },
   barchart: {
     position:'absolute',
@@ -20,8 +21,9 @@ export default makeStyles((theme) => ({
 },
   donut:{
     position:'absolute',
-    right:'20%',
-    top:'50%'
+    right:'10%',
+    top:'40%',
+    width:'35%'
   },
   menus:{
     "&:hover":{

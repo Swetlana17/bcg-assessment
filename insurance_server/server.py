@@ -1,6 +1,6 @@
 from flask import Flask,jsonify,request,render_template
 import pandas as pd
-from main import inserting_data,fetching_data,updating_data,filtering_data,filtering_Gender
+from main import inserting_data,fetching_data,updating_data,filtering_data,filtering_gender
 from main import search_by_customer_id
 from main import search_by_product_id
 from bson.objectid import ObjectId
@@ -41,7 +41,7 @@ def filter_data(region):
 
 @app.route('/filter_gender', methods=['GET'])
 def filter_by_gender():
-    return jsonify(filtering_Gender())
+    return jsonify(filtering_gender())
 
 
 @app.route('/product_id')

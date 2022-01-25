@@ -47,13 +47,12 @@ def updating_data(id):
     except Exception as e:
         print(e)
         return {"message":"cannot read data"}
-    return {"message": "Done reading"}
 
 
 def filtering_data(param):
     try:
         collection = db['product']
-        if(param==None or param == "undefined" or param =="All"):
+        if param == "All":
             filter_by_month = list(collection.aggregate([{"$group": {'_id': {"$month": {"$toDate": "$Date of Purchase"}}, "Premium": {"$sum": "$Premium"}}}]))
         else:
             filter_by_month = list(collection.aggregate([{"$match":{"Customer_Region":param}},{"$group":{'_id':{"$month":{"$toDate":"$Date of Purchase"}},"Premium":{"$sum":"$Premium"}}}]))
@@ -64,7 +63,8 @@ def filtering_data(param):
     except Exception as e:
         print(e)
 
-def filtering_Gender():
+
+def filtering_gender():
     try:
         collection = db['product']
         filter_by_gender = list(collection.aggregate([{"$group": {'_id': '$Customer_Gender', "Premium": {"$sum": "$Premium"}}}]))
@@ -74,6 +74,7 @@ def filtering_Gender():
         return filter_by_gender
     except Exception as e:
         print(e)
+
 
 def search_by_customer_id(ctx):
     return {"message":"Hello World"}
