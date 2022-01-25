@@ -50,9 +50,6 @@ export default function TableComponent() {
 
 
   //methods
-    const onToggleEditMode=(e)=>{
-      console.log("open popup")
-    }
     const nextPage=()=>{
       setRows(data.slice(10*(page+1),10*(page+1)+10))      
       setPagination(prev=>prev+1)
@@ -85,16 +82,18 @@ export default function TableComponent() {
       setSearched("");
       setRows(data.slice(0,10));
     };
-    useEffect(()=>{
+    useEffect(async()=>{
       if(!fetched){
-       fetch("/data").then(res=>res.json()).then(data => 
+       await fetch("/data").then(res=>res.json()).then(data => 
         {
           setFetched(true);
           setData(data);
-          setRows(data.slice(1*page,1*page+10));
+          setRows(data.slice(1*page,1*page+10));          
+         
           setLoading(false);
         })
       }
+      console.log(data);
       },[rows,loading])
   return (
     <Container maxWidth="xl">
@@ -124,7 +123,7 @@ export default function TableComponent() {
         />
         </Container>
        
-    <TableContainer component={Paper}>
+    {rows.length>0?(<><TableContainer component={Paper}>
       <Table  sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>          
@@ -166,15 +165,15 @@ export default function TableComponent() {
               <StyledTableCell align="right">{row.Fuel}</StyledTableCell>
               <StyledTableCell align="right">{row.VEHICLE_SEGMENT}</StyledTableCell>
               <StyledTableCell align="right">{row.Premium}</StyledTableCell>
-              <StyledTableCell align="right">{row['bodily injury liability']=="0"?"No":"Yes"}</StyledTableCell>
-              <StyledTableCell align="right">{row[' personal injury protection']=="0"?"No":"Yes"}</StyledTableCell>
-              <StyledTableCell align="right">{row[' property damage liability']=="0"?"No":"Yes"}</StyledTableCell>
-              <StyledTableCell align="right">{row[' collision']=="0"?"No":"Yes"}</StyledTableCell>
-              <StyledTableCell align="right">{row[' comprehensive']=="0"?"No":"Yes"}</StyledTableCell>
+              <StyledTableCell align="right">{row['bodily injury liability']=="0"||row['bodily injury liability']=="No"?"No":"Yes"}</StyledTableCell>
+              <StyledTableCell align="right">{row[' personal injury protection']=="0" || row[' personal injury protection'] =="No"?"No":"Yes"}</StyledTableCell>
+              <StyledTableCell align="right">{row[' property damage liability']=="0"||row[' property damage liability']=="No"?"No":"Yes"}</StyledTableCell>
+              <StyledTableCell align="right">{(row[' collision']=="0"||row[' collision']=="No")?"No":"Yes"}</StyledTableCell>
+              <StyledTableCell align="right">{row[' comprehensive']=="0"||row[' comprehensive']=="No"?"No":"Yes"}</StyledTableCell>
               <StyledTableCell align="right">{row.Customer_Gender}</StyledTableCell>
               <StyledTableCell align="right">{row['Customer_Income group']}</StyledTableCell>
               <StyledTableCell align="right">{row.Customer_Region}</StyledTableCell>
-              <StyledTableCell align="right">{row.Customer_Marital_status=="0"?"Unmarried":"Married"}</StyledTableCell>
+              <StyledTableCell align="right">{row.Customer_Marital_status=="0"||row.Customer_Marital_status=="Unmarried"?"Unmarried":"Married"}</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
@@ -184,7 +183,10 @@ export default function TableComponent() {
  <div style={{textAlign:'center'}}>{page+1} of {Math.ceil(data.length/10)} </div>
  <Button  variant="contained" disabled={page===0} style={{display:'inline-flex'}} onClick={()=>prevPage()}>Prev</Button>
 <Button  variant="contained" disabled={page === Math.ceil(data.length/10)} style={{display:'inline-flex',float:'right'}} onClick={()=>nextPage()}>Next</Button>
-</Box>   
+</Box> </> ):
+(<>
+  <h1 style={{textAlign:'center'}}>No Records Found</h1>
+  <Button style={{margin:'auto',display:'block'}} variant="contained" onClick={()=>setRows(data.slice(0,10))}>Refresh</Button></>)} 
     </Container>
   );
 }

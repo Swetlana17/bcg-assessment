@@ -12,7 +12,6 @@ import { Alert, Backdrop } from "@mui/material";
 
 export default function SinglePolicy(props) {
   const [open, setOpen] = React.useState(false);  
-  const [success,setSuccess]=React.useState(false);
   const [policy, setPolicy] = React.useState([]);
   const [vehicles, setVehicles] = React.useState([
     { value: "A" },
@@ -27,33 +26,35 @@ export default function SinglePolicy(props) {
   const handleClose = () => {
     setOpen(false);
   };
-  const handleSave=async () =>{
+  const handleSave= () =>{
     if(policy.Premium<1000000){
-    try{
+    
     for(let i in policy){
       if(policy[i] === "Yes") policy[i]=1
       if(policy[i] === "No") policy[i]=0
       if(policy[i] === "Married") policy[i]=1
       if(policy[i] === "Unmarried") policy[i]=0
     }
+    setTimeout(()=>{
+      try{
     let id = policy._id
     delete policy._id
 
-      await fetch(`/update_data/${id}`,{
+      fetch(`/update_data/${id}`,{
             'method':'PUT', headers : {
               'Content-Type':'application/json',
               'mode':'no-cors'
         },
       body:JSON.stringify(policy)
     })
-    .then(response => {response.json(); setSuccess(true);})
-    .catch(error => {console.log(error);setSuccess(false)})
+    .then(response => {response.json();})
+    .catch(error => {console.log(error);})
   setOpen(false)
   window.location.reload(false)  
   }
   catch(e){
     console.log(e);
-  }
+  }},100)
 }
   }
   const handleChange=(evt)=> {
