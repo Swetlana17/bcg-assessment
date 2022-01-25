@@ -35,7 +35,6 @@ def update_data(id):
 
 @app.route('/filter/<region>', methods=['GET'])
 def filter_data(region):
-    print("============================================================",region);
     return jsonify(filtering_data(region))
 
 

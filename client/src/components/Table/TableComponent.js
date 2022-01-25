@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from 'react';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
-import { Button, Container, Typography } from '@mui/material';
+import { Backdrop, Button, Container, Typography } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
@@ -99,13 +99,15 @@ export default function TableComponent() {
     <Container maxWidth="xl">
     {
       loading 
-      && <Box  
+      && <Backdrop
+      sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+      open={true}> <Box  
         style={{position: 'absolute',
         left: '50%',
         top: '50%'}}>
       <CircularProgress />
       <p>Loading...</p>
-    </Box>
+    </Box></Backdrop>
     }
     <Container style={{padding:'50px'}}>
     <SearchBar style={{display:'inline-flex'}}
@@ -123,7 +125,7 @@ export default function TableComponent() {
         />
         </Container>
        
-    {rows.length>0?(<><TableContainer component={Paper}>
+    {rows.length>0 && !loading ?(<><TableContainer component={Paper}>
       <Table  sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>          

@@ -39,10 +39,8 @@ def fetching_data():
 def updating_data(id):
     try:
         res = request.json
-        print('res is -----',id)
         collection = db['product']
         policy = collection.replace_one({"_id":ObjectId(id)},res)
-        print('policy is---- ',policy)
         return {"message": "cannot read data"}
     except Exception as e:
         print(e)
@@ -58,7 +56,6 @@ def filtering_data(param):
             filter_by_month = list(collection.aggregate([{"$match":{"Customer_Region":param}},{"$group":{'_id':{"$month":{"$toDate":"$Date of Purchase"}},"Premium":{"$sum":"$Premium"}}}]))
         for row in filter_by_month:
             row["_id"] = str(row["_id"])
-        print("res is", filter_by_month)
         return filter_by_month
     except Exception as e:
         print(e)
@@ -70,7 +67,6 @@ def filtering_gender():
         filter_by_gender = list(collection.aggregate([{"$group": {'_id': '$Customer_Gender', "Premium": {"$sum": "$Premium"}}}]))
         for row in filter_by_gender:
             row["_id"] = str(row["_id"])
-        print("res is", filter_by_gender)
         return filter_by_gender
     except Exception as e:
         print(e)
